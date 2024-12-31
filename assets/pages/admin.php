@@ -72,8 +72,11 @@
                                 $database = new Database();
                                 $db = $database->connect();
                                 $categorie=new categorie($db);
-                                $categorie->afficheCategorie();
-                                
+                                $array= $categorie->afficheCategorie();
+                                 foreach($array as $row)
+                                 {
+                                   echo "<option value=".$row['nom'].">".$row['nom']."</option>";
+                                 }
                               }catch(PDOException $e){
 
                               }
@@ -190,18 +193,27 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y">
-                        <tr>
-                            <td class="px-6 py-4">SUV</td>
-                            <td class="px-6 py-4">Véhicules sportifs utilitaires</td>
-                            <td class="px-6 py-4 space-x-2">
-                                <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                        
+                           <?php 
+                            foreach($array as $row)
+                            {
+                             echo " <tr>
+                                 <td>".$row['nom']."</td>
+                                  <td>".$row['description']."</td>
+                                  <td class='px-6 py-4 space-x-2'>
+                                <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'>
                                     Modifier
                                 </button>
-                                <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                                <button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600'>
                                     Supprimer
                                 </button>
                             </td>
-                        </tr>
+                            </tr> ";
+                            }
+                           ?>
+                            
+                            
+                        
                     </tbody>
                 </table>
             </div>

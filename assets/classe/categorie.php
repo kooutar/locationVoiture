@@ -14,10 +14,12 @@ class categorie{
    function afficheCategorie(){
       $stmt=$this->db->prepare("SELECT * FROM categorie;");
       $stmt->execute();
-      if($stmt->rowCount() > 0){
-        while($row = $stmt->fetch()){
-            echo "<option>". $row['nom'] ."</option>";
-        }
-    }
+      if($stmt)
+      {
+        return $stmt->fetchAll();
+      }else{
+        return [];
+      }
+
    }
 }

@@ -17,11 +17,11 @@ create table utilisateur(
     password varchar(255) not null,
     idrole int not NULL,
     foreign key(idrole) references role(idrole)
-); 
--- INSERT utilisateur(nom,Email,telephone,date_Naissance,gender,password,idrole) values();
+);
  create table categorie(
     idCategorie int primary key NOT NULL AUTO_INCREMENT,
-    nom varchar(100) not NUll Unique
+    nom varchar(100) not NUll Unique,
+    description Text
  );
  create table vehicule(
     idVehicule int primary key NOT NULL AUTO_INCREMENT,
@@ -53,5 +53,4 @@ CREATE TABLE avis (
     FOREIGN KEY (iduser, idVehicule) REFERENCES reservation(iduser, idVehicule)
 );
 
-ALTER TABLE utilisateur MODIFY Email VARCHAR(255) NOT NULL;
-
+ALTER TABLE categorie ADD COLUMN description Text ;
