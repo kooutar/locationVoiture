@@ -20,6 +20,11 @@ class categorie{
       }else{
         return [];
       }
+   }
+   function removeCategorie(){
 
+   }
+   function updateCategorie(){
+    
    }
 }

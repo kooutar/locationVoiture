@@ -30,6 +30,7 @@ create table utilisateur(
      disponsible bool default false,
      path_image varchar(255) NOT NULL,
      lieu varchar(50) NOT NULL,
+     nom varchar(255),
      foreign key (idCategorie) references categorie(idCategorie)
  );
 
@@ -52,5 +53,5 @@ CREATE TABLE avis (
     idVehicule INT NOT NULL,
     FOREIGN KEY (iduser, idVehicule) REFERENCES reservation(iduser, idVehicule)
 );
+ALTER TABLE vehicule ADD nom varchar(255)  ;
 
-ALTER TABLE categorie ADD COLUMN description Text ;

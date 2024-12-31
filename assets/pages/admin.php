@@ -46,27 +46,27 @@
         <!-- Add Vehicle Form -->
         <div id="addVehicule" class="section hidden">
             <h2 class="text-2xl font-bold mb-6">Ajouter un Véhicule</h2>
-            <form class="max-w-lg bg-white p-6 rounded-lg shadow-md">
+            <form class="max-w-lg bg-white p-6 rounded-lg shadow-md" action="../traitement/vehicule.php" method="POST" enctype="multipart/form-data">
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">Nom</label>
-                        <input type="text" class="w-full p-2 border rounded">
+                        <input type="text" name="nom" class="w-full p-2 border rounded">
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Prix par jour</label>
-                        <input type="number" class="w-full p-2 border rounded">
+                        <input type="number" name="prix" class="w-full p-2 border rounded">
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Image</label>
-                        <input type="file" class="w-full p-2 border rounded">
+                        <input type="file" name="image_path" class="w-full p-2 border rounded">
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Lieu</label>
-                        <input type="text" class="w-full p-2 border rounded">
+                        <input type="text" name="lieu" class="w-full p-2 border rounded">
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Catégorie</label>
-                        <select class="w-full p-2 border rounded">
+                        <select id="categorie" name="selectCategorie" class="w-full p-2 border rounded">
                            <?php
                               try{
                                 $database = new Database();
@@ -75,7 +75,7 @@
                                 $array= $categorie->afficheCategorie();
                                  foreach($array as $row)
                                  {
-                                   echo "<option value=".$row['nom'].">".$row['nom']."</option>";
+                                   echo "<option class='optionCategorie' value=".$row['idCategorie'].">".$row['nom']."</option>";
                                  }
                               }catch(PDOException $e){
 
@@ -228,6 +228,16 @@
             });
             document.getElementById(sectionId).classList.remove('hidden');
         }
+        let allOption = document.querySelectorAll(".optionCategorie");
+
+          allOption.forEach(option => {
+              option.addEventListener('change', () => {
+                  console.log(option.value);
+              });
+          });
+
+            
+        
 
         // Show first section by default
         showSection('addVehicule');
