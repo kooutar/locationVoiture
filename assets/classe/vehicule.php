@@ -16,6 +16,13 @@ class vehicule{
     else{return false;}
   }
 
+  function afficheVehicule(){
+     $stmt=$this->db->prepare("SELECT * FROM  vehicule ");
+    $bool= $stmt->execute();
+    if($bool){return $stmt->fetchAll();}
+    else{ return [];}
+  }
+
 
 
 }

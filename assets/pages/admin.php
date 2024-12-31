@@ -8,7 +8,8 @@
 ?>
 <?php
     require_once '../classe/db.php';
-    require_once '../classe/categorie.php';                            
+    require_once '../classe/categorie.php';  
+    require_once '../classe/vehicule.php';                          
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,6 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Dashboard Admin - Drive & Loc</title>
+   
 </head>
 <body class="bg-gray-100">
     <!-- Sidebar -->
@@ -159,22 +161,31 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y">
-                        <tr>
-                            <td class="px-6 py-4">
-                                <img src="/api/placeholder/50/50" alt="voiture" class="w-12 h-12 rounded object-cover">
-                            </td>
-                            <td class="px-6 py-4">BMW X5</td>
-                            <td class="px-6 py-4">SUV</td>
-                            <td class="px-6 py-4">200€</td>
-                            <td class="px-6 py-4 space-x-2">
-                                <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-                                    Modifier
-                                </button>
-                                <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                                    Supprimer
-                                </button>
-                            </td>
-                        </tr>
+                    <?php
+$vehicule = new vehicule($db); // Objet véhicule
+$vehicules = $vehicule->afficheVehicule(); // Liste des véhicules
+
+foreach ($vehicules as $row) { // Renommez la variable dans la boucle pour éviter le conflit
+    echo "<tr>
+        <td class='px-6 py-4'>
+            <img src='" . htmlspecialchars($row['path_image']) . "' alt='voiture' class='w-12 h-12 rounded object-cover'>
+        </td>
+        <td class='px-6 py-4'>" . htmlspecialchars($row['nom']) . " X5</td>
+        <td class='px-6 py-4'>" . htmlspecialchars($row['idCategorie']) . "</td>
+        <td class='px-6 py-4'>" . htmlspecialchars($row['prix']) . "</td>
+        <td class='px-6 py-4 space-x-2'>
+            <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'>
+                Modifier
+            </button>
+            <button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600'>
+                Supprimer
+            </button>
+        </td>
+    </tr>";
+}
+?>
+
+                       
                     </tbody>
                 </table>
             </div>
@@ -230,14 +241,8 @@
         }
         let allOption = document.querySelectorAll(".optionCategorie");
 
-          allOption.forEach(option => {
-              option.addEventListener('change', () => {
-                  console.log(option.value);
-              });
-          });
-
-            
         
+
 
         // Show first section by default
         showSection('addVehicule');

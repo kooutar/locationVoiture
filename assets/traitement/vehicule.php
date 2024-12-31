@@ -24,7 +24,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
             echo "c'est pas une image";
         }
     }else{
-        echo "hjhgjh";
+        echo "image vide";
     }
    
    
