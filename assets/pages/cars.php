@@ -1,3 +1,16 @@
+<?php
+    require_once '../classe/db.php';
+    require_once '../classe/categorie.php';  
+    require_once '../classe/vehicule.php'; 
+    try{
+
+        $database = new Database();
+        $db = $database->connect();
+    } catch(PDOException $e){
+        $e->getMessage();
+    }
+                          
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +53,150 @@
         
         <!--responsive.css-->
         <link rel="stylesheet" href="../css/responsive.css">
-        
+        <style>
+    .featured-cars {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.single-featured-cars {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+.single-featured-cars:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.featured-cars-img img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px 5px 0 0;
+}
+
+.featured-model-info {
+    padding: 10px;
+    background: rgba(0,0,0,0.05);
+}
+
+.featured-cars-txt {
+    padding: 20px;
+}
+
+.featured-cars-txt h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.featured-cars-txt h3 {
+    color: #4e4ffa;
+    margin-bottom: 15px;
+}
+
+.featured-mi-span, .featured-hp-span {
+    margin: 0 10px;
+    padding: 2px 8px;
+    background: #4e4ffa;
+    color: white;
+    border-radius: 3px;
+}
+
+.welcome-btn {
+    background: #4e4ffa;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.welcome-btn:hover {
+    background: #0102fa;
+    color: white;
+}
+.vehicle-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .vehicle-card {
+            width: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        .vehicle-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .vehicle-details {
+            padding: 15px;
+        }
+
+        .vehicle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .vehicle-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .vehicle-price {
+            color: #4e4ffa;
+            font-weight: bold;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+        }
+
+        .tag-active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .tag-family {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .reserve-button {
+            width: 100%;
+            padding: 10px;
+            background: #4e4ffa;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .reserve-button:hover {
+            background: #3a3bc7;
+        }
+        </style>
 </head>
 <body>
    <!-- top-area Start -->
@@ -93,12 +249,78 @@
            
         </div>
     </div>
+    <!-- section affiche vehicules -->
+</section>
 
+<section class="featured-cars" style="margin-top: 50px;">
+    <div class="container">
+        <!-- Search and Filter Section -->
+        <div class="row" style="margin-bottom: 40px;">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Rechercher un véhicule..." style="height: 45px;">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" style="height: 45px; background: #4e4ffa; color: white;">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <select class="form-control" style="height: 45px;">
+                    <option value="">Toutes les catégories</option>
+                    <?php
+                                $categorie=new categorie($db);
+                                $array= $categorie->afficheCategorie();
+                                 foreach($array as $row)
+                                 {
+                                   echo "<option class='optionCategorie' value=".$row['idCategorie'].">".$row['nom']."</option>";
+                                 }
+                            
+                           ?>
+                </select>
+            </div>
+        </div>
+
+        <!-- Vehicles Cards -->
+        <div class="vehicle-grid">
+        <?php 
+         $vehicle=new vehicule($db);
+         $vehicles= $vehicle->afficheVehicule();
+        foreach( $vehicles as $row): ?>
+            <div class="vehicle-card">
+                <img src="<?= $row['path_image'] ?>" alt="" class="vehicle-image">
+                <div class="vehicle-details">
+                    <div class="vehicle-header">
+                        <h2 class="vehicle-title"><?= $row['nom']  ?> </h2>
+                        <span class="vehicle-price"><?= $row['prix']  ?></span>
+                    </div>
+                    <div class="tags">
+                            <span class="tag tag-active"><?= $row['categorie']?></span>
+                            <span class="tag tag-family"><?= $row['lieu']?></span>
+                       
+                    </div>
+                    <form action="detaille.php" method="POST">
+                        <input type="hidden" name="idvehicule" value="<?=$row['idVehicule']?>">
+                    <button class="reserve-button" id="">Voir plus</button>
+                    </form>
+                   
+
+                </div>
+            </div>
+            
+        <?php endforeach; ?>
+    </div>
     
 
-</section><!--/.welcome-hero-->
-<!--welcome-hero end -->
-<!-- top-area End --> 
+        <!-- Load More Button -->
+        <div class="row">
+            <div class="col-md-12 text-center" style="margin-top: 40px;">
+                <button class="btn welcome-btn">Voir plus de véhicules</button>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 <script src="../js/jquery.js"></script>
@@ -119,5 +341,46 @@
 
         <!--Custom JS-->
         <script src="../js/custom.js"></script>
+        <script>
+        // function fetchVehicules(idCategorie = '') {
+        //     $.ajax({
+        //         url: 'getVehicules.php',
+        //         type: 'POST',
+        //         data: { idCategorie: idCategorie },
+        //         success: function(data) {
+        //             let html = '';
+        //             if (data.length > 0) {
+        //                 data.forEach(vehicule => {
+        //                     html += `
+        //                         <div class="card">
+        //                             <h3>${vehicule.nom}</h3>
+        //                             <p>Prix : ${vehicule.prix}€</p>
+        //                             <p>Lieu : ${vehicule.lieu}</p>
+        //                             <img src="${vehicule.path_image}" alt="${vehicule.nom}" style="width:100px; height:auto;">
+        //                         </div>
+        //                     `;
+        //                 });
+        //             } else {
+        //                 html = '<p>Aucun véhicule trouvé.</p>';
+        //             }
+        //             $('#vehicules').html(html);
+        //         },
+        //         error: function(err) {
+        //             console.error('Erreur:', err);
+        //         }
+        //     });
+        // }
+
+        // // Charger tous les véhicules au chargement de la page
+        // $(document).ready(function() {
+        //     fetchVehicules();
+
+        //     // Recharger les véhicules à chaque changement de catégorie
+        //     $('#categorie').change(function() {
+        //         const idCategorie = $(this).val();
+        //         fetchVehicules(idCategorie);
+        //     });
+        // });
+    </script>
 </body>
 </html>

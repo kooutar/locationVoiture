@@ -23,7 +23,8 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         'gender'=>$gender,
         'password' => $password
     ]);
-    
+    header("location:../pages/login.php");
+    exit();
     // Exemple de connexion
 
     //   // $client->reserverVehicule([

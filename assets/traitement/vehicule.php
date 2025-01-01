@@ -6,7 +6,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     $prix=$_POST['prix'];
    $selectCategorie=$_POST['selectCategorie'];
     $lieu=$_POST['lieu'];
-    $dir='../uplods';
+    $dir='../uplods/';
     if(isset($_FILES['image_path']) && !empty($_FILES["image_path"]["name"])  ){
         $path=basename($_FILES['image_path']['name']);
         $finalPath=$dir."".uniqid()."".$path;

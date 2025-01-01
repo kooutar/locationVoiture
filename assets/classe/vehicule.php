@@ -15,16 +15,18 @@ class vehicule{
     if($bool){return true;}
     else{return false;}
   }
-
-  function afficheVehicule(){
-     $stmt=$this->db->prepare("SELECT * FROM  vehicule ");
+  function afficheVehicule($idCategorie = null){
+     $stmt=$this->db->prepare("SELECT v.* ,c.nom as categorie FROM  vehicule v inner join categorie c on c.idCategorie =v.idCategorie");
     $bool= $stmt->execute();
     if($bool){return $stmt->fetchAll();}
     else{ return [];}
   }
+  function getVehiculeWithId($id){
+    $stmt=$this->db->prepare("SELECT v.* ,c.nom as categorie FROM  vehicule v inner join categorie c on c.idCategorie =v.idCategorie WHERE idVehicule=:idVehicule");
+   $result= $stmt->execute([':idVehicule'=>$id]);
+    if($result) return $stmt->fetch();
+    else return [];
 
-
-
+  }
 }
-
 ?>

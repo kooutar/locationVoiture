@@ -27,14 +27,14 @@ abstract class Utilisateur {
             if($user['idrole']==1)
             {
                $_SESSION['id_user']=$user['iduser'];
-               $_SESSION['idrole']=$user['idrole'];
+               $_SESSION['idrole']='client';
                $this->id = $user['iduser'];
               
                header('location:../pages/clientPage.php');
                exit();
             }else{
               $_SESSION['id_user']=$user['iduser'];
-              $_SESSION['idrole']=$user['idrole'];
+              $_SESSION['idrole']='admin';
               header('location:../pages/admin.php');
               exit();
             } 

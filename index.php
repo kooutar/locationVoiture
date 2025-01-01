@@ -82,7 +82,7 @@
 				                    <li class=" scroll active"><a href="#home">home</a></li>
 				                    <li class="scroll"><a href="#service">service</a></li>
 				                    <li class="scroll"><a href="#featured-cars">featured cars</a></li>
-				                    <li><a href="./assets/pages/cars.html">cars</a></li>
+				                    <li><a href="./assets/pages/cars.php">cars</a></li>
 				                    <li class="scroll"><a href="#brand">brands</a></li>
 				                    <li class="scroll"><a href="#contact">contact</a></li>
 				                </ul><!--/.nav -->
@@ -102,7 +102,7 @@
 					<p>
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore   magna aliqua. 
 					</p>
-					<button class="welcome-btn" onclick="window.location.href='assets/pages/registre.html'">registre</button>
+					<button class="welcome-btn" onclick="window.location.href='assets/pages/registre.php'">registre</button>
 				</div>
 			</div>
 
