@@ -15,6 +15,8 @@ require_once '../classe/db.php';
             'datedebut'=>$date_debut,
             'datefin'=>$date_fin
      ]);
+     $stmt2=$this->db->prepare("Update vehicule set disponsible=true where idVehicule=:idvehicule");
+     $stmt2->execute(['idvehicule'=>$id_vehicule]);
      if($result) return true;
      else false;
 

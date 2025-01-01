@@ -68,7 +68,9 @@ $sessionActive = isset($_SESSION['id_user']);
                     <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"> 
                         <?php if ($array['disponsible'] == false): ?>
                             disponible
-                        <?php endif; ?>
+                        <?php else : ?>
+                            indisponible
+                            <?php endif; ?>
 </span>
                     <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm"><?= $array['categorie']?></span>
                 </div>
