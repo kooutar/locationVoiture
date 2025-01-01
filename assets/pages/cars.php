@@ -341,46 +341,17 @@
 
         <!--Custom JS-->
         <script src="../js/custom.js"></script>
-        <script>
-        // function fetchVehicules(idCategorie = '') {
-        //     $.ajax({
-        //         url: 'getVehicules.php',
-        //         type: 'POST',
-        //         data: { idCategorie: idCategorie },
-        //         success: function(data) {
-        //             let html = '';
-        //             if (data.length > 0) {
-        //                 data.forEach(vehicule => {
-        //                     html += `
-        //                         <div class="card">
-        //                             <h3>${vehicule.nom}</h3>
-        //                             <p>Prix : ${vehicule.prix}€</p>
-        //                             <p>Lieu : ${vehicule.lieu}</p>
-        //                             <img src="${vehicule.path_image}" alt="${vehicule.nom}" style="width:100px; height:auto;">
-        //                         </div>
-        //                     `;
-        //                 });
-        //             } else {
-        //                 html = '<p>Aucun véhicule trouvé.</p>';
-        //             }
-        //             $('#vehicules').html(html);
-        //         },
-        //         error: function(err) {
-        //             console.error('Erreur:', err);
+    <script>
+        // function loadvehicules(){
+        //     const XML =new XMLHttpRequest();
+        //     xml.open('GET','../classe/getVehicules.php',true);
+        //     xml=onload =function(){
+        //         if(xml.status===200){
+        //             const data =JSON.parse(xml.responseText);
+                    
         //         }
-        //     });
+        //     }
         // }
-
-        // // Charger tous les véhicules au chargement de la page
-        // $(document).ready(function() {
-        //     fetchVehicules();
-
-        //     // Recharger les véhicules à chaque changement de catégorie
-        //     $('#categorie').change(function() {
-        //         const idCategorie = $(this).val();
-        //         fetchVehicules(idCategorie);
-        //     });
-        // });
     </script>
 </body>
 </html>

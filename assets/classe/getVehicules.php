@@ -6,13 +6,16 @@ try {
     $db = $database->connect();
 
     $vehicule = new vehicule($db);
-
-    $idCategorie = isset($_GET['idCategorie']) ? intval($_GET['idCategorie']) : null;
-    $vehicules = $vehicule->afficheVehicule($idCategorie);
-
-    header('Content-Type: application/json');
-    echo json_encode($vehicules);
-
+  if(isset($_GET['idCategorie']))
+  {
+    $idCategorie=$_GET['idCategorie'];
+    if( $idCategorie =="all"){
+        $vehicules=$vehicule->afficheVehicule(); 
+    }else{
+        $vehicules=$vehicule->getVehiculeByCategorie($idCategorie); 
+    }
+  }
+   echo json_encode($vehicules);
 } catch (PDOException $e) {
     echo json_encode(['error' => $e->getMessage()]);
 }

@@ -173,28 +173,32 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
                     </thead>
                     <tbody class="divide-y">
                     <?php
-$vehicule = new vehicule($db); // Objet véhicule
-$vehicules = $vehicule->afficheVehicule(); // Liste des véhicules
-
-foreach ($vehicules as $row) { // Renommez la variable dans la boucle pour éviter le conflit
-    echo "<tr>
-        <td class='px-6 py-4'>
-            <img src='" . htmlspecialchars($row['path_image']) . "' alt='voiture' class='w-12 h-12 rounded object-cover'>
-        </td>
-        <td class='px-6 py-4'>" . htmlspecialchars($row['nom']) . " X5</td>
-        <td class='px-6 py-4'>" . htmlspecialchars($row['idCategorie']) . "</td>
-        <td class='px-6 py-4'>" . htmlspecialchars($row['prix']) . "</td>
-        <td class='px-6 py-4 space-x-2'>
-            <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'>
-                Modifier
-            </button>
-            <button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600'>
-                Supprimer
-            </button>
-        </td>
-    </tr>";
-}
-?>
+                    $vehicule = new vehicule($db); 
+                    $vehicules = $vehicule->afficheVehicule(); 
+                    foreach ($vehicules as $row) { 
+                        echo "<tr>
+                            <td class='px-6 py-4'>
+                                <img src='" . htmlspecialchars($row['path_image']) . "' alt='voiture' class='w-12 h-12 rounded object-cover'>
+                            </td>
+                            <td class='px-6 py-4'>" . htmlspecialchars($row['nom']) . " X5</td>
+                            <td class='px-6 py-4'>" . htmlspecialchars($row['idCategorie']) . "</td>
+                            <td class='px-6 py-4'>" . htmlspecialchars($row['prix']) . "</td>
+                            <td class='flex px-6 py-4 space-x-2'>
+                            <form>
+                                <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'>
+                                    Modifier
+                                </button>
+                            </form>
+                            <form action='../traitement/removevehicule.php' method='POST'>
+                                <input type='hidden' name='idvehicule' value={$row['idVehicule']}>
+                                <button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600'>
+                                    Supprimer
+                                </button>
+                            </form>
+                            </td>
+                        </tr>";
+                    }
+                    ?>
 
                        
                     </tbody>

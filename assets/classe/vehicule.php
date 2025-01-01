@@ -26,7 +26,21 @@ class vehicule{
    $result= $stmt->execute([':idVehicule'=>$id]);
     if($result) return $stmt->fetch();
     else return [];
-
   }
+  function getVehiculeByCategorie($idCategorie){
+    $stmt=$this->db->prepare("SELECT v.* ,c.nom as categorie FROM  vehicule v inner join categorie c on c.idCategorie =v.idCategorie WHERE idCategorie=:idCategorie");
+    $result= $stmt->execute([':idCategorie'=>$idCategorie]);
+     if($result) return $stmt->fetchAll();
+     else return [];
+  }
+  function supprimerVehicule($idvehicule): bool {
+    echo $idvehicule;
+    $stmt = $this->db->prepare("DELETE FROM vehicule WHERE idVehicule = :idVehicule");
+    return $stmt->execute(['idVehicule' => $idvehicule]);
 }
+
+}
+
+
+
 ?>
