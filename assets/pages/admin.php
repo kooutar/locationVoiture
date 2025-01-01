@@ -1,15 +1,22 @@
 
 <?php 
-// session_start();
-// if(!isset($_SESSION['iduser']) || $_SESSION['idrole']!=2){
-//     header("location: login.php");
-//     exit();
-// }
+session_start();
+if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
+    header("location: login.php");
+    exit();
+}
 ?>
 <?php
     require_once '../classe/db.php';
     require_once '../classe/categorie.php';  
-    require_once '../classe/vehicule.php';                          
+    require_once '../classe/vehicule.php';
+    require_once '../classe/admin.php';
+    try{
+       $database = new Database();
+       $db=$database->connect();
+    }catch(PDOException $e){$e->getMessage();}
+    $admin =new admin($db); 
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -39,6 +46,10 @@
             </button>
             <button onclick="showSection('categories')" class="w-full text-left p-3 hover:bg-blue-700 rounded">
                 📑 Toutes les Catégories
+            </button>
+            <button onclick=""
+            class="w-full text-left p-3 hover:bg-blue-700 rounded">
+                📑 Deconnexion
             </button>
         </nav>
     </div>

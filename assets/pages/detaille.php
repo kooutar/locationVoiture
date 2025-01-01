@@ -1,6 +1,7 @@
 <?php
 session_start();
 $sessionActive = isset($_SESSION['id_user']);
+
  require_once '../classe/db.php';
  require_once '../classe/vehicule.php';
  try{
@@ -34,15 +35,17 @@ $sessionActive = isset($_SESSION['id_user']);
                 <img src="<?= $array['path_image']?>" alt="Car Main View" class="w-full h-96 object-cover rounded-lg">
                 <div class="mt-8 border-t pt-8">
                     <h2 class="text-xl font-semibold mb-4">Make a Reservation</h2>
-                    <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <form class="grid grid-cols-1 md:grid-cols-2 gap-6" action="../traitement/reservation.php" method="POST">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Pickup Date</label>
-                            <input type="date" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                            <input type="date" name="dateResrvation" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Return Date</label>
-                            <input type="date" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                            <input type="date" name="dateRendre" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                         </div>
+                        <input type="hidden" name="iduser" value="<?=$_SESSION['id_user']?>">
+                        <input type="hidden" name="idvehicule" value="<?= $array['idVehicule']?>">
                         <?php if ($sessionActive): ?>
                         <button type="submit" class="md:col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
                             Reserve Now
