@@ -60,50 +60,66 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
     <div class="ml-64 p-8">
         <!-- Add Vehicle Form -->
         <div id="addVehicule" class="section hidden">
-            <h2 class="text-2xl font-bold mb-6">Ajouter un Véhicule</h2>
-            <form class="max-w-lg bg-white p-6 rounded-lg shadow-md" action="../traitement/vehicule.php" method="POST" enctype="multipart/form-data">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Ajouter des Véhicules</h2>
+        <button type="button" onclick="addVehicleForm()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            + Ajouter un autre véhicule
+        </button>
+    </div>
+    
+    <form id="vehicleForm" class="space-y-6" action="../traitement/vehicule.php" method="POST" enctype="multipart/form-data">
+        <div id="vehicleForms">
+            <div class="vehicle-entry max-w-lg bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-semibold">Véhicule #1</h3>
+                    <button type="button" onclick="removeVehicleForm(this)" class="text-red-500 hover:text-red-700 hidden">
+                        Supprimer
+                    </button>
+                </div>
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">Nom</label>
-                        <input type="text" name="nom" class="w-full p-2 border rounded">
+                        <input type="text" name="nom[]" class="w-full p-2 border rounded" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Prix par jour</label>
-                        <input type="number" name="prix" class="w-full p-2 border rounded">
+                        <input type="number" name="prix[]" class="w-full p-2 border rounded" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Image</label>
-                        <input type="file" name="image_path" class="w-full p-2 border rounded">
+                        <input type="file" name="image_path[]" class="w-full p-2 border rounded" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Lieu</label>
-                        <input type="text" name="lieu" class="w-full p-2 border rounded">
+                        <input type="text" name="lieu[]" class="w-full p-2 border rounded" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Catégorie</label>
-                        <select id="categorie" name="selectCategorie" class="w-full p-2 border rounded">
-                           <?php
-                              try{
+                        <select name="selectCategorie[]" class="w-full p-2 border rounded" required>
+                            <?php
+                            try {
                                 $database = new Database();
                                 $db = $database->connect();
-                                $categorie=new categorie($db);
-                                $array= $categorie->afficheCategorie();
-                                 foreach($array as $row)
-                                 {
-                                   echo "<option class='optionCategorie' value=".$row['idCategorie'].">".$row['nom']."</option>";
-                                 }
-                              }catch(PDOException $e){
-
-                              }
-                           ?>
+                                $categorie = new categorie($db);
+                                $array = $categorie->afficheCategorie();
+                                foreach($array as $row) {
+                                    echo "<option value='".$row['idCategorie']."'>".$row['nom']."</option>";
+                                }
+                            } catch(PDOException $e) {
+                                echo "<option>Erreur de chargement des catégories</option>";
+                            }
+                            ?>
                         </select>
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-                        Ajouter le véhicule
-                    </button>
                 </div>
-            </form>
+            </div>
         </div>
+        
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+            Enregistrer tous les véhicules
+        </button>
+    </form>
+</div>
 
         <!-- Add Category Form -->
         <div id="addCategorie" class="section hidden">
@@ -377,6 +393,37 @@ modifyButtons.forEach(button => {
 //         reader.readAsDataURL(file);
 //     }
 // });
+let formCount = 1;
+
+function addVehicleForm() {
+    formCount++;
+    const template = document.querySelector('.vehicle-entry').cloneNode(true);
+    template.querySelector('h3').textContent = `Véhicule #${formCount}`;
+    template.querySelector('button').classList.remove('hidden');
+    
+    // Clear form values
+    template.querySelectorAll('input').forEach(input => {
+        if(input.type === 'file') {
+            input.value = '';
+        } else {
+            input.value = '';
+        }
+    });
+    
+    document.getElementById('vehicleForms').appendChild(template);
+}
+
+function removeVehicleForm(button) {
+    button.closest('.vehicle-entry').remove();
+    updateFormNumbers();
+}
+
+function updateFormNumbers() {
+    document.querySelectorAll('.vehicle-entry h3').forEach((header, index) => {
+        header.textContent = `Véhicule #${index + 1}`;
+    });
+    formCount = document.querySelectorAll('.vehicle-entry').length;
+}
     </script>
 </body>
 </html>

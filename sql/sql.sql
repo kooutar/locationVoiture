@@ -77,5 +77,8 @@ create PROCEDURE AjouterReservation (
 BEGIN
 INSERT INTO reservation(iduser,idVehicule,date_debut,date_fin)
 VALUES(id_uder,id_vehicule,date_debut,date_fin);
+Update vehicule
+set disponsible=true
+WHERE idVehicule=id_vehicule;
 END;//
 
