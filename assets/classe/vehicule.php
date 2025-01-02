@@ -47,6 +47,37 @@ function getVehiculeByName($name) {
   return $stmt->fetchAll(); 
 }
 
+function updateVehicule($idVehicule, $name, $price, $lieu, $disponsible, $idCategorie) {
+  // Préparer la requête SQL pour mettre à jour les informations dans la table 'vehicule'
+  $stmt = $this->db->prepare("
+      UPDATE vehicule
+      SET nom = :nom, 
+          prix = :prix, 
+          lieu = :lieu, 
+          disponsible = :disponsible, 
+          idCategorie = :idCategorie
+      WHERE idVehicule = :idVehicule
+  ");
+
+  // Exécuter la requête avec les paramètres
+  $bool = $stmt->execute([
+      "nom" => $name,
+      "prix" => $price,
+      "lieu" => $lieu,
+      "disponsible" => $disponsible,
+      "idCategorie" => $idCategorie,
+      "idVehicule" => $idVehicule
+  ]);
+
+  // Vérifier si la mise à jour a réussi
+  if ($bool) {
+      echo "Mise à jour réussie.";
+      return true;
+  } else {
+      echo "Échec de la mise à jour.";
+      return false;
+  }
+}
 
 }
 

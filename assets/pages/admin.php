@@ -191,7 +191,10 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
                                         data-nom='{$row['nom']}'
                                         data-prix='{$row['prix']}'
                                         data-categorie='{$row['idCategorie']}'
-                                        data-path='{{$row['path_image']}}' name='' class='bteModifier bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'>
+                                        data-path='{$row['path_image']}'
+                                        data-lieu ='{$row['lieu']}'
+                                        data-despo='{$row['disponsible']}'
+                                        name='' class='bteModifier bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'>
                                     Modifier
                                 </button>
                            
@@ -262,25 +265,39 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
             </button>
         </div>
 
-        <form action="update_vehicle.php" method="POST" enctype="multipart/form-data">
+        <form action="../traitement/update_vehicule.php" method="POST" enctype="multipart/form-data">
             
             <div class="space-y-4">
                 <!-- Name -->
+                 <input type="hidden" id ='modal-id' name='idvehicule'>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                    <input type="text" id="modal-nom"name="name" value="<?php echo $car['nom']?>" class="w-full border rounded-lg px-3 py-2" required>
+                    <input type="text" id="modal-nom" name="name" value="" class="w-full border rounded-lg px-3 py-2" required>
                 </div>
 
                 <!-- Price per day -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Price per day</label>
-                    <input type="number" id="modal-prix" name="price" value=" <?php echo $car['prix']?>" class="w-full border rounded-lg px-3 py-2" required>
+                    <input type="number" id="modal-prix" name="price" value=" " class="w-full border rounded-lg px-3 py-2" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Lieu</label>
+                    <input type="text" id="modal-lieu" name="lieu" value="" class="w-full border rounded-lg px-3 py-2" required>
+                </div>
+             
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select name="despo" id="modal-despo">
+                    <option value="0">Disponible</option>
+                    <option value="1">Indisponible</option>
+                     </select>
                 </div>
 
                 <!-- Image --> 
                <!-- <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Image</label>
-                    <input type="file" name="image" id="modal-path"value="<?php echo $car['path_image']?>" class="w-full border rounded-lg px-3 py-2" accept="image/*">
+                    <input type="file" name="image" id="modal-path"value="<?php //echo $car['path_image']?>" class="w-full border rounded-lg px-3 py-2" accept="image/*">
                     <img id="image-preview" alt="Aperçu de l'image" style="max-width: 100px;">
                 </div> -->
 
@@ -291,9 +308,7 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
                         <?php  foreach($array as $row)
                                  {
                                    echo "<option class='optionCategorie' value=".$row['idCategorie'].">".$row['nom']."</option>";
-                                 } ?>
-                          
-                       
+                                 } ?> 
                     </select>
                 </div>
 
@@ -327,22 +342,25 @@ const editModal=document.getElementById('editModal');
 const modalId = document.querySelector('#modal-id');
 const modalNom = document.querySelector('#modal-nom');
 const modalPrix = document.querySelector('#modal-prix');
+const modallieu = document.querySelector('#modal-lieu');
+const modalDespo = document.querySelector('#modal-despo');
 const modalCategorie = document.querySelector('#modal-categorie');
-const modalpath= document.querySelector('#modal-path');
-const imagePreview = document.querySelector('#image-preview');
 modifyButtons.forEach(button => {
     button.addEventListener('click', (event) => {
-        
         const idVehicule = button.dataset.id;
         const nom = button.dataset.nom;
         const prix = button.dataset.prix;
         const categorie = button.dataset.categorie;
+        const lieu=button.dataset.lieu;
+        const despo=button.dataset.despo;
     //   const path=button.dataset.path;
         // Remplir la modal avec les informations du véhicule
-       
+        modalId.value=idVehicule;
         modalNom.value = nom;
         modalPrix.value = prix;
         modalCategorie.value = categorie;
+        modallieu.value=lieu;
+        modalDespo.value=despo;
         // imagePreview.src =path;
         // Afficher la modal
         editModal.classList.remove('hidden');

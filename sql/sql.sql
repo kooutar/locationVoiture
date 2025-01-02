@@ -55,3 +55,13 @@ CREATE TABLE avis (
 );
 ALTER TABLE vehicule ADD nom varchar(255)  ;
 
+create view vehicule_categorie as 
+select v.* ,c.nom as nomcategorie , c.idCategorie as idcategorieCcategorie ,c.description
+from vehicule v
+inner join categorie c
+on v.idCategorie=c.idCategorie;
+
+-- verifire si modifiable
+SELECT IS_UPDATABLE 
+FROM INFORMATION_SCHEMA.VIEWS 
+WHERE TABLE_NAME = 'vehicule_categorie';
