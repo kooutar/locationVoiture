@@ -258,7 +258,7 @@
         <div class="row" style="margin-bottom: 40px;">
             <div class="col-md-8">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Rechercher un véhicule..." style="height: 45px;">
+                    <input type="text" class="form-control" id="search" placeholder="Rechercher un véhicule..." style="height: 45px;">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" style="height: 45px; background: #4e4ffa; color: white;">
                             <i class="fa fa-search"></i>

@@ -47,12 +47,17 @@ $sessionActive = isset($_SESSION['id_user']);
                         <input type="hidden" name="iduser" value="<?=$_SESSION['id_user']?>">
                         <input type="hidden" name="idvehicule" value="<?= $array['idVehicule']?>">
                         <?php if ($sessionActive): ?>
-                        <button type="submit" class="md:col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                            Reserve Now
-                        </button>
-                        <?php else: ?>
-                            <p class="text-2xl font-bold text-blue-600">Connectez-vous pour réserver.</p>
-                            <?php endif; ?>
+    <?php if ($array['disponsible'] == true): ?>
+        <p class="text-2xl font-bold text-blue-600">Indisponible</p>
+    <?php else: ?>
+        <button type="submit" class="md:col-span-2 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+            Reserve Now
+        </button>
+    <?php endif; ?>
+<?php else: ?>
+    <p class="text-2xl font-bold text-blue-600">Connectez-vous pour réserver</p>
+<?php endif; ?>
+
                     </form>
                 </div>
             </div>

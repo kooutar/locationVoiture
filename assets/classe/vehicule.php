@@ -34,10 +34,19 @@ class vehicule{
      else return [];
   }
   function supprimerVehicule($idvehicule): bool {
-    echo $idvehicule;
+    
     $stmt = $this->db->prepare("DELETE FROM vehicule WHERE idVehicule = :idVehicule");
     return $stmt->execute(['idVehicule' => $idvehicule]);
 }
+
+function getVehiculeByName($name) {
+  $stmt = $this->db->prepare("SELECT * FROM vehicule WHERE nom :name");
+  $likedata = "%". $name ."%" ;
+  $stmt->bindParam(":name", $likedata);
+  $stmt->execute();
+  return $stmt->fetchAll(); 
+}
+
 
 }
 
