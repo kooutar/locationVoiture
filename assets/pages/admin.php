@@ -184,7 +184,8 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
                             <td class='px-6 py-4'>" . htmlspecialchars($row['idCategorie']) . "</td>
                             <td class='px-6 py-4'>" . htmlspecialchars($row['prix']) . "</td>
                             <td class='flex px-6 py-4 space-x-2'>
-                            <form>
+                            <form action='../traitement/updateVehicule.php' method='POST'>
+                             <input type='hidden' name='idvehicule' value={$row['idVehicule']}>
                                 <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'>
                                     Modifier
                                 </button>

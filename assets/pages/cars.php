@@ -267,8 +267,8 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <select class="form-control" style="height: 45px;">
-                    <option value="">Toutes les catégories</option>
+                <select class="form-control" id="selectCategorie" style="height: 45px;">
+                    <option value="all">Toutes les catégories</option>
                     <?php
                                 $categorie=new categorie($db);
                                 $array= $categorie->afficheCategorie();
@@ -283,7 +283,7 @@
         </div>
 
         <!-- Vehicles Cards -->
-        <div class="vehicle-grid">
+        <div class="vehicle-grid" id="vehicle-grid">
         <?php 
          $vehicle=new vehicule($db);
          $vehicles= $vehicle->afficheVehicule();
@@ -341,17 +341,7 @@
 
         <!--Custom JS-->
         <script src="../js/custom.js"></script>
-    <script>
-        // function loadvehicules(){
-        //     const XML =new XMLHttpRequest();
-        //     xml.open('GET','../classe/getVehicules.php',true);
-        //     xml=onload =function(){
-        //         if(xml.status===200){
-        //             const data =JSON.parse(xml.responseText);
-                    
-        //         }
-        //     }
-        // }
+         <script src="../js/ajax.js"></script>
     </script>
 </body>
 </html>

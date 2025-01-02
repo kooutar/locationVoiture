@@ -28,7 +28,7 @@ class vehicule{
     else return [];
   }
   function getVehiculeByCategorie($idCategorie){
-    $stmt=$this->db->prepare("SELECT v.* ,c.nom as categorie FROM  vehicule v inner join categorie c on c.idCategorie =v.idCategorie WHERE idCategorie=:idCategorie");
+    $stmt=$this->db->prepare("SELECT v.* ,c.nom as categorie FROM  vehicule v inner join categorie c on c.idCategorie =v.idCategorie WHERE v.idCategorie=:idCategorie");
     $result= $stmt->execute([':idCategorie'=>$idCategorie]);
      if($result) return $stmt->fetchAll();
      else return [];
