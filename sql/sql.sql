@@ -65,3 +65,17 @@ on v.idCategorie=c.idCategorie;
 SELECT IS_UPDATABLE 
 FROM INFORMATION_SCHEMA.VIEWS 
 WHERE TABLE_NAME = 'vehicule_categorie';
+
+DELIMITER //
+create PROCEDURE AjouterReservation (
+   IN id_uder int,
+   IN id_vehicule int,
+   IN date_debut date,
+   In date_fin date
+  
+)
+BEGIN
+INSERT INTO reservation(iduser,idVehicule,date_debut,date_fin)
+VALUES(id_uder,id_vehicule,date_debut,date_fin);
+END;//
+

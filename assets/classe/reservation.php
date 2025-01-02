@@ -8,7 +8,7 @@ require_once '../classe/db.php';
         $this->db=$db;
     }
     function ajouterResrvation($id_user,$id_vehicule,$date_debut,$date_fin) :bool{
-     $stmt=$this->db->prepare("INSERT INTO reservation(iduser,idVehicule,date_debut,date_fin) VALUES(:iduser,:id_vehicule,:datedebut,:datefin)");
+     $stmt=$this->db->prepare("CALL AjouterReservation(:iduser,:id_vehicule,:datedebut,:datefin)");
     $result= $stmt->execute([
            'iduser'=> $id_user,
             'id_vehicule'=>$id_vehicule,
