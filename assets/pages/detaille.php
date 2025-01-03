@@ -5,6 +5,7 @@ $sessionActive = isset($_SESSION['id_user']);
 require_once '../classe/db.php';
 require_once '../classe/vehicule.php';
 require_once '../classe/reservation.php';
+require_once '../classe/avis.php';
 try {
     $database = new Database();
     $db = $database->connect();
@@ -63,7 +64,7 @@ try {
                                 <p class="text-2xl font-bold text-blue-600">Connectez-vous pour réserver</p>
                             <?php endif; ?>
 
-                        </form >
+                        </form>
                         <?php
                         $resrvation = new reservation($db);
                         $resrvations = $resrvation->showAllreservation($_SESSION['id_user'], $idvehicule);
@@ -72,8 +73,8 @@ try {
                             <div class="max-w-md mx-auto bg-white p-6 rounded-lg">
                                 <form action='../traitement/avis.php' method='POST'>
                                     <h1 class="text-2xl font-bold text-gray-800 mb-6">Donner votre avis</h1>
-                                       <input type="hidden" name="idvehicule" value="<?=$idvehicule ?>">
-                                       <input type="hidden" name="iduser" value="<?=$_SESSION['id_user'] ?>">
+                                    <input type="hidden" name="idvehicule" value="<?= $idvehicule ?>">
+                                    <input type="hidden" name="iduser" value="<?= $_SESSION['id_user'] ?>">
                                     <div class="flex flex-wrap gap-4">
                                         <!-- Option One -->
                                         <label class="flex items-center cursor-pointer">
@@ -86,7 +87,7 @@ try {
 
                                         <!-- Option Two -->
                                         <label class="flex items-center cursor-pointer">
-                                            <input type="radio" name="radio" class="hidden peer"  value='2'>
+                                            <input type="radio" name="radio" class="hidden peer" value='2'>
                                             <span class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-blue-500">
                                                 <span class="w-3 h-3 bg-white rounded-full hidden peer-checked:block"></span>
                                             </span>
@@ -95,7 +96,7 @@ try {
 
                                         <!-- Option Three -->
                                         <label class="flex items-center cursor-pointer">
-                                            <input type="radio" name="radio" class="hidden peer"  value='3'>
+                                            <input type="radio" name="radio" class="hidden peer" value='3'>
                                             <span class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-blue-500">
                                                 <span class="w-3 h-3 bg-white rounded-full hidden peer-checked:block"></span>
                                             </span>
@@ -104,7 +105,7 @@ try {
 
                                         <!-- Option Four -->
                                         <label class="flex items-center cursor-pointer">
-                                            <input type="radio" name="radio" class="hidden peer"  value='4'>
+                                            <input type="radio" name="radio" class="hidden peer" value='4'>
                                             <span class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-blue-500">
                                                 <span class="w-3 h-3 bg-white rounded-full hidden peer-checked:block"></span>
                                             </span>
@@ -182,7 +183,16 @@ try {
                         </p>
                     </div>
 
-                    <!-- Reservation Form -->
+                    <div class="ml-8 p-4 bg-gray-100 rounded-lg shadow-md">
+    <?php
+    $avis = new avis($db);
+    $arrayAvis = $avis->afficheAvis($idvehicule);
+    ?>
+    <div class="mb-4 border-b border-gray-300 pb-2">
+        <h1 class="text-xl font-bold text-gray-800"><?= $arrayAvis['nom'] ?></h1>
+        <p class="text-gray-600"><?= $arrayAvis['commentaire'] ?></p>
+    </div>
+</div>
 
                 </div>
             <?php
