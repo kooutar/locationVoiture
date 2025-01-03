@@ -19,5 +19,16 @@ require_once '../classe/db.php';
      else false;
 
     }
+
+    function showAllreservation($id_user,$id_vehicule){
+       $stmt= $this->db->prepare("SELECT * from reservation where iduser=:iduser and idVehicule=:idVehicule");
+       $resrvations=$stmt->execute(['iduser'=>$id_user,
+                                     'idVehicule'=>$id_vehicule]);
+       if($resrvations)
+        return $stmt->fetch();
+       else return [];
+
+    }
  }
+
 ?>

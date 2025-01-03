@@ -24,7 +24,16 @@ class categorie{
    function removeCategorie(){
 
    }
-   function updateCategorie(){
-    
-   }
+   function updateCategorie($idcategorie, $nameCategorie, $description) {
+    $stmt = $this->db->prepare("UPDATE categorie SET nom = :name, description = :description WHERE idCategorie = :idCategorie;");
+    $stmt->execute([
+        'name' => $nameCategorie,
+        'description' => $description,
+        'idCategorie' => $idcategorie
+    ]);
+}
+ function supprimercategorie($idcategorie){
+  $stmt = $this->db->prepare("DELETE FROM categorie WHERE idcategorie = :idcategorie");
+  return $stmt->execute(['idcategorie' => $idcategorie]);
+ }
 }

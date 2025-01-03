@@ -82,3 +82,12 @@ set disponsible=true
 WHERE idVehicule=id_vehicule;
 END;//
 
+
+
+create view avis_user as
+select avi.* , u.nom
+from avis avi
+inner join utilisateur u
+on avi.iduser=u.iduser 
+
+

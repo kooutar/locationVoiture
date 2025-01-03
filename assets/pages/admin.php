@@ -246,18 +246,28 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
                     <tbody class="divide-y">
                         
                            <?php 
+                            $categorie = new categorie($db);
+                            $array = $categorie->afficheCategorie();
                             foreach($array as $row)
                             {
                              echo " <tr>
                                  <td>".$row['nom']."</td>
                                   <td>".$row['description']."</td>
                                   <td class='px-6 py-4 space-x-2'>
-                                <button class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'>
+                                  <div class='flex'>
+                                <button class='BteModifyCategorie bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'
+                                data-id='{$row['idCategorie']}'
+                                data-nom='{$row['nom']}'
+                                data-description='{$row['description']}' '>
                                     Modifier
                                 </button>
+                            <form action='../traitement/removeCategorie.php' method='POST'>
+                                <input type='hidden' name='idCategorie' value={$row['idCategorie']}>
                                 <button class='bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600'>
                                     Supprimer
                                 </button>
+                            </form>
+                            </div>
                             </td>
                             </tr> ";
                             }
@@ -270,6 +280,7 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
             </div>
         </div>
     </div>
+    <!-- modale edite vehicule  -->
     <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 hidden">
     <div class="bg-white rounded-lg w-96 mx-auto mt-20 p-6">
         <div class="flex justify-between items-center mb-6">
@@ -336,6 +347,47 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
         </form>
     </div>
 </div>
+<!-- modale edit categorie  -->
+
+<div id="editModalCategorie" class="fixed inset-0 bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg w-96 mx-auto mt-20 p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Edit Vehicle</h2>
+            <button onclick="closeModal2()" class="text-gray-500 hover:text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        <form action="../traitement/update_categorie.php" method="POST" enctype="multipart/form-data">
+            
+            <div class="space-y-4">
+                <!-- Name -->
+                 <input type="hidden" id ='modal-idCategorie' name='idcategorie'>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                    <input type="text" id="modal-nomCategorie" name="nomCategorie" value="" class="w-full border rounded-lg px-3 py-2" required>
+                </div>
+
+                <!-- Price per day -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Price per day</label>
+                    <textarea  id="modal-descriptioncategorie" name="descriptioncategorie" value=" " class="w-full border rounded-lg px-3 py-2" required></textarea>
+                </div>
+
+                <div>
+             
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                    Update categorie
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
     <script>
  
         function showSection(sectionId) {
@@ -361,6 +413,15 @@ const modalPrix = document.querySelector('#modal-prix');
 const modallieu = document.querySelector('#modal-lieu');
 const modalDespo = document.querySelector('#modal-despo');
 const modalCategorie = document.querySelector('#modal-categorie');
+// *****************edit cetogorie
+const editModalCategorie=document.querySelector('#editModalCategorie');
+const BteModifyCategorie =document.querySelectorAll('.BteModifyCategorie');
+const modalidCategorie=document.querySelector('#modal-idCategorie');
+const modalnomCategorie=document.querySelector('#modal-nomCategorie');
+const modaldescriptioncategorie=document.querySelector('#modal-descriptioncategorie');
+function closeModal2() {
+    document.getElementById('editModalCategorie').classList.add('hidden');
+}
 modifyButtons.forEach(button => {
     button.addEventListener('click', (event) => {
         const idVehicule = button.dataset.id;
@@ -369,8 +430,7 @@ modifyButtons.forEach(button => {
         const categorie = button.dataset.categorie;
         const lieu=button.dataset.lieu;
         const despo=button.dataset.despo;
-    //   const path=button.dataset.path;
-        // Remplir la modal avec les informations du véhicule
+
         modalId.value=idVehicule;
         modalNom.value = nom;
         modalPrix.value = prix;
@@ -383,16 +443,21 @@ modifyButtons.forEach(button => {
     });
 });
 
-// modalpath.addEventListener('change', (event) => {
-//     const file = event.target.files[0];
-//     if (file) {
-//         const reader = new FileReader();
-//         reader.onload = (e) => {
-//             imagePreview.src = e.target.result;
-//         };
-//         reader.readAsDataURL(file);
-//     }
-// });
+// ***********************************
+BteModifyCategorie.forEach(button=>{
+    console.log('hdh');
+    button.addEventListener('click',()=>{
+const idcategorie=button.dataset.id;
+const nom=button.dataset.nom;
+console.log(nom);
+const description =button.dataset.description;
+modalidCategorie.value=idcategorie;
+modalnomCategorie.value=nom;
+modaldescriptioncategorie.value=description;
+editModalCategorie.classList.remove('hidden');
+    })
+})
+
 let formCount = 1;
 
 function addVehicleForm() {

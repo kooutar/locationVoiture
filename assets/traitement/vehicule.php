@@ -9,25 +9,18 @@ try {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         for ($i = 0; $i < count($_POST['nom']); $i++) {
             $vehicule = new Vehicule($db);
-
-            // Initialiser le chemin de l'image
             $finalPath = null;
-
-            // Gestion du téléchargement d'image
             if (isset($_FILES['image_path']['name'][$i]) && !empty($_FILES['image_path']['name'][$i])) {
                 $dir = '../uplods/';
                 $path = basename($_FILES['image_path']['name'][$i]);
                 $finalPath = $dir . uniqid() . "_" . $path;
-
-                // Extensions autorisées
                 $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'svg'];
                 $extension = pathinfo($finalPath, PATHINFO_EXTENSION);
-
                 if (in_array(strtolower($extension), $allowedExtensions)) {
                     if (move_uploaded_file($_FILES['image_path']['tmp_name'][$i], $finalPath)) {
-                        // Fichier déplacé avec succès
+                        
                     } else {
-                        // Gestion d'erreur si le déplacement échoue
+                       
                         echo "Erreur lors du téléchargement de l'image pour le véhicule : " . $_POST['nom'][$i];
                         continue;
                     }
@@ -37,7 +30,7 @@ try {
                 }
             }
 
-            // Ajouter le véhicule
+          
            $bool= $vehicule->ajouterVehicule(
                 $_POST['nom'][$i],
                 $_POST['prix'][$i],
