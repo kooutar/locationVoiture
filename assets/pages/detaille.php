@@ -66,6 +66,7 @@ try {
 
                         </form>
                         <?php
+                        if(isset($_SESSION['id_user'])):
                         $resrvation = new reservation($db);
                         $resrvations = $resrvation->showAllreservation($_SESSION['id_user'], $idvehicule);
                         if ($resrvations):
@@ -131,7 +132,8 @@ try {
                                     </button>
                                 </form>
                             </div>
-                        <?php endif; ?>
+                        <?php endif;
+                         endif; ?>
 
                     </div>
                 </div>
@@ -187,11 +189,13 @@ try {
     <?php
     $avis = new avis($db);
     $arrayAvis = $avis->afficheAvis($idvehicule);
+    if($arrayAvis){
     ?>
     <div class="mb-4 border-b border-gray-300 pb-2">
         <h1 class="text-xl font-bold text-gray-800"><?= $arrayAvis['nom'] ?></h1>
         <p class="text-gray-600"><?= $arrayAvis['commentaire'] ?></p>
     </div>
+    <?php } ?>
 </div>
 
                 </div>

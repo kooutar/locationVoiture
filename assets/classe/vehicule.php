@@ -48,7 +48,6 @@ function getVehiculeByName($name) {
 }
 
 function updateVehicule($idVehicule, $name, $price, $lieu, $disponsible, $idCategorie) {
-  // Préparer la requête SQL pour mettre à jour les informations dans la table 'vehicule'
   $stmt = $this->db->prepare("
       UPDATE vehicule
       SET nom = :nom, 
@@ -58,8 +57,6 @@ function updateVehicule($idVehicule, $name, $price, $lieu, $disponsible, $idCate
           idCategorie = :idCategorie
       WHERE idVehicule = :idVehicule
   ");
-
-  // Exécuter la requête avec les paramètres
   $bool = $stmt->execute([
       "nom" => $name,
       "prix" => $price,
@@ -69,7 +66,6 @@ function updateVehicule($idVehicule, $name, $price, $lieu, $disponsible, $idCate
       "idVehicule" => $idVehicule
   ]);
 
-  // Vérifier si la mise à jour a réussi
   if ($bool) {
       echo "Mise à jour réussie.";
       return true;
@@ -77,6 +73,26 @@ function updateVehicule($idVehicule, $name, $price, $lieu, $disponsible, $idCate
       echo "Échec de la mise à jour.";
       return false;
   }
+}
+// ********************************
+function getTotalVehicules() {
+  $stmt = $this->db->prepare("SELECT COUNT(*) as totalVehicule FROM vehicule");
+  $stmt->execute();
+  $result = $stmt->fetch();
+  return $result ? $result['totalVehicule'] : 0;
+}
+function Pagination($page) {
+  $parPage = 4;
+  // $totalVehicules = $this->getTotalVehicules();
+  $premier = ($page * $parPage) - $parPage;
+  $stmt = $this->db->prepare("SELECT v.* ,c.nom as categorie FROM  vehicule v inner join categorie c on c.idCategorie =v.idCategorie LIMIT :premier, :parPage");
+ 
+  $stmt->bindParam(':premier', $premier, PDO::PARAM_INT);
+  $stmt->bindParam(':parPage', $parPage, PDO::PARAM_INT);
+  $stmt->execute();
+  
+ 
+  return $stmt->fetchAll();
 }
 
 }

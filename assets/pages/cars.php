@@ -196,6 +196,38 @@
         .reserve-button:hover {
             background: #3a3bc7;
         }
+        .pagination {
+    display: flex;
+    justify-content: center; /* Centre les éléments */
+}
+
+.pagination ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 10px; /* Ajoute un espace de 10px entre chaque lien */
+}
+
+.pagination a {
+    text-decoration: none;
+    color: black; /* Couleur par défaut des liens */
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0; /* Couleur de fond au survol */
+}
+
+.pagination .active {
+    font-weight: bold;
+    color: blue; /* Couleur des liens actifs */
+}
+
         </style>
 </head>
 <body>
@@ -284,34 +316,56 @@
 
         <!-- Vehicles Cards -->
         <div class="vehicle-grid" id="vehicle-grid">
-        <?php 
-         $vehicle=new vehicule($db);
-         $vehicles= $vehicle->afficheVehicule();
-        foreach( $vehicles as $row): ?>
-            <div class="vehicle-card">
-                <img src="<?= $row['path_image'] ?>" alt="" class="vehicle-image">
-                <div class="vehicle-details">
-                    <div class="vehicle-header">
-                        <h2 class="vehicle-title"><?= $row['nom']  ?> </h2>
-                        <span class="vehicle-price"><?= $row['prix']  ?></span>
-                    </div>
-                    <div class="tags">
-                            <span class="tag tag-active"><?= $row['categorie']?></span>
-                            <span class="tag tag-family"><?= $row['lieu']?></span>
-                       
-                    </div>
-                    <form action="detaille.php" method="POST">
-                        <input type="hidden" name="idvehicule" value="<?=$row['idVehicule']?>">
-                    <button class="reserve-button" id="">Voir plus</button>
-                    </form>
-                   
+    <?php
+    // Initialisation de l'objet vehicule et récupération du total des véhicules
+    $vehicle = new vehicule($db);
+    $totaleVehicule = $vehicle->getTotalVehicules();
 
-                </div>
-            </div>
-            
-        <?php endforeach; ?>
-    </div>
+    $nbrpages = ceil($totaleVehicule / 4);
+
+    $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+
+   
+    $vehicles = $vehicle->Pagination($page);
     
+    foreach ($vehicles as $row):
+      
+    ?>
+        <div class="vehicle-card">
+            <img src="<?= $row['path_image'] ?>" alt="" class="vehicle-image">
+            <div class="vehicle-details">
+                <div class="vehicle-header">
+                    <h2 class="vehicle-title"><?= $row['nom'] ?></h2>
+                    <span class="vehicle-price"><?= $row['prix'] ?></span>
+                </div>
+                <div class="tags">
+                    <span class="tag tag-active"><?= $row['categorie'] ?></span>
+                    <span class="tag tag-family"><?= $row['lieu'] ?></span>
+                </div>
+                <form action="detaille.php" method="POST">
+                    <input type="hidden" name="idvehicule" value="<?= $row['idVehicule'] ?>">
+                    <button class="reserve-button">Voir plus</button>
+                </form>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<!-- Pagination (affichée sous la grille des véhicules) -->
+<div class="w-full">
+    <div class="pagination">
+        <ul>
+            <?php
+            // Génération des liens de pagination
+            for ($i = 1; $i <= $nbrpages; $i++) {
+                // Vérification si la page actuelle correspond à la page de la boucle
+                $activeClass = ($i == $page) ? 'class="active"' : '';
+                echo "<li><a href='?page=$i' $activeClass>$i</a></li>";
+            }
+            ?>
+        </ul>
+    </div>
+</div>
 
         <!-- Load More Button -->
         <div class="row">
