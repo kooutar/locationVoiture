@@ -30,7 +30,7 @@ require_once '../classe/db.php';
 
     }
     function showALLreservationCleint($id_user){
-       $stmt = $this->db->prepare("SELECT r.date_debut ,r.date_fin , r.status, v.path_image ,v.nom 
+       $stmt = $this->db->prepare("SELECT r.idVehicule, r.date_debut ,r.date_fin , r.status, v.path_image ,v.nom 
        FROM reservation r
        inner join vehicule v
        on r.idVehicule=v.idVehicule
@@ -41,6 +41,24 @@ require_once '../classe/db.php';
        }else{
          return [];
        }
+    }
+
+    function updateRservation($iduser,$id_vehicule,$datedebut,$datefin){
+      $stmt=$this->db->prepare("update reservation 
+                                 set date_debut=:date_debut ,date_fin=:date_fin
+                                 where iduser=:iduser and idVehicule=:idVehicule");
+
+      
+       
+        $stmt->bindParam(':date_debut', $datedebut);
+        $stmt->bindParam(':date_fin', $datefin);
+        $stmt->bindParam(':iduser', $iduser);
+        $stmt->bindParam(':idVehicule', $id_vehicule);
+
+       
+        $stmt->execute();
+        return "Réservation mise à jour avec succès!";
+      
     }
  }
 

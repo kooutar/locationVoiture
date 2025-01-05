@@ -21,6 +21,18 @@ class vehicule{
     if($bool){return $stmt->fetchAll();}
     else{ return [];}
   }
+  function getvehiculeNotReserved(){
+     $stmt=$this->db->prepare("SELECT v.*
+                                FROM vehicule v
+                                LEFT JOIN reservation r ON v.idVehicule = r.idVehicule
+                                WHERE r.idVehicule IS NULL;  ");
+    $result =$stmt->execute();
+    if($result){
+      return $stmt->fetchAll();
+    }else{
+      return [];
+    }
+  }
   function getVehiculeWithId($id){
     $stmt=$this->db->prepare("SELECT v.* ,c.nom as categorie FROM  vehicule v inner join categorie c on c.idCategorie =v.idCategorie WHERE idVehicule=:idVehicule");
    $result= $stmt->execute([':idVehicule'=>$id]);
