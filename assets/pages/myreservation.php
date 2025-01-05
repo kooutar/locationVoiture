@@ -132,7 +132,11 @@ require_once '../classe/vehicule.php';
                         data-nom="<?=$reservation['nom']?>" 
                         data-finDate="<?=$reservation['date_fin'] ?>" 
                         data-debutDate="<?=$reservation['date_debut']?>" >Edit</button>
+                <form action="../traitement/removeReservation.php" method="POST">
+                <input type="hidden"  id='idvehicule' name="idvehicule">
+                <input type="hidden" id ='modal-id' name='iduser' value='<?=$_SESSION['id_user']?>'>
                  <button class="btn remove ">Remove</button>
+                 </form>
              </td>
          </tr>
          <?php

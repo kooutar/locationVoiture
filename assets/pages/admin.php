@@ -11,9 +11,11 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
     require_once '../classe/categorie.php';  
     require_once '../classe/vehicule.php';
     require_once '../classe/admin.php';
+    require_once '../classe/reservation.php';
     try{
        $database = new Database();
        $db=$database->connect();
+       $reservation = new reservation($db);
     }catch(PDOException $e){$e->getMessage();}
     $admin =new admin($db); 
 
@@ -152,24 +154,46 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
                             <th class="px-6 py-3 text-left">Véhicule</th>
                             <th class="px-6 py-3 text-left">Date début</th>
                             <th class="px-6 py-3 text-left">Date fin</th>
+                            <th class="px-6 py-3 text-left"> Status</th>
                             <th class="px-6 py-3 text-left">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y">
-                        <tr>
-                            <td class="px-6 py-4">John Doe</td>
-                            <td class="px-6 py-4">BMW X5</td>
-                            <td class="px-6 py-4">01/01/2024</td>
-                            <td class="px-6 py-4">05/01/2024</td>
-                            <td class="px-6 py-4 space-x-2">
-                                <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
-                                    Accepter
-                                </button>
-                                <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                                    Refuser
-                                </button>
-                            </td>
-                        </tr>
+                    <?php 
+$reservations = $reservation->affichageReservationAdmin();
+foreach ($reservations as $reservation) {
+?>
+    <tr>
+        <td class="px-6 py-4"><?= $reservation['nom_client'] ?></td>
+        <td class="px-6 py-4"><?= $reservation['nom_vehicule'] ?></td>
+        <td class="px-6 py-4"><?= $reservation['date_debut'] ?></td>
+        <td class="px-6 py-4"><?= $reservation['date_fin'] ?></td>
+        <td class="px-6 py-4"><?= $reservation['status'] ?></td>
+        <td class="px-6 py-4 space-x-2">
+            <form action="update_reservation_status.php" method="POST" style="display:inline;">
+                <input type="hidden" name="iduser" value="<?= $reservation['iduser'] ?>">
+                <input type="hidden" name="idvehicule" value="<?= $reservation['idVehicule'] ?>">
+                <input type="hidden" name="status" value="accepte">
+                <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
+                    Accepter
+                </button>
+            </form>
+            <form action="update_reservation_status.php" method="POST" style="display:inline;">
+                <input type="hidden" name="iduser" value="<?= $reservation['iduser'] ?>">
+                <input type="hidden" name="idvehicule" value="<?= $reservation['idVehicule'] ?>">
+                <input type="hidden" name="status" value="refuse">
+                <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                    Refuser
+                </button>
+            </form>
+        </td>
+    </tr>
+<?php 
+}
+?>
+
+
+
                     </tbody>
                 </table>
             </div>
@@ -489,6 +513,45 @@ function updateFormNumbers() {
     });
     formCount = document.querySelectorAll('.vehicle-entry').length;
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Sélectionner tous les boutons "Accepter" et "Refuser"
+    const buttons = document.querySelectorAll('button[data-action]');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            const action = this.getAttribute('data-action');
+            const iduser = this.getAttribute('data-iduser');
+            const idvehicule = this.getAttribute('data-idvehicule');
+            console.log('Action:', action, 'ID User:', iduser, 'ID Vehicule:', idvehicule);
+            // Effectuer l'appel AJAX pour changer le statut
+            fetch('update_reservation_status.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `action=${action}&iduser=${iduser}&idvehicule=${idvehicule}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mettre à jour l'affichage de la réservation avec le nouveau statut
+                    const statusCell = document.querySelector(`#reservation-${iduser}-${idvehicule} td:nth-child(5)`);
+                    statusCell.textContent = data.new_status;  // Met à jour le statut affiché
+                } else {
+                    alert('Erreur lors de la mise à jour du statut.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur s\'est produite.');
+            });
+        });
+    });
+});
+
+
     </script>
 </body>
 </html>

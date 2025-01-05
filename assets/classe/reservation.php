@@ -57,9 +57,40 @@ require_once '../classe/db.php';
 
        
         $stmt->execute();
-        return "Réservation mise à jour avec succès!";
+      
       
     }
+
+    function daleteReservation($iduser,$id_vehicule){
+      $stmt=$this->db->prepare("delete from reservation 
+      where iduser=:iduser and idVehicule=:idVehicule");
+      $stmt->bindParam(':iduser', $iduser);
+      $stmt->bindParam(':idVehicule', $id_vehicule);
+      $stmt->execute();
+    }
+    function affichageReservationAdmin() {
+      $stmt = $this->db->prepare("SELECT 
+          u.nom AS nom_client, 
+          v.nom AS nom_vehicule, 
+          r.iduser,
+          r.idVehicule,
+          r.date_debut, 
+          r.date_fin, 
+          r.status
+      FROM 
+          reservation r
+      JOIN 
+          utilisateur u ON r.iduser = u.iduser
+      JOIN 
+          vehicule v ON r.idVehicule = v.idVehicule");
+      
+      if ($stmt->execute()) {
+          return $stmt->fetchAll();  
+      } else {
+          return [];  
+      }
+  }
+  
  }
 
 ?>
