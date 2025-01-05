@@ -27,6 +27,9 @@ if(!isset($_SESSION['id_user']) || $_SESSION['idrole']!="admin"){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inclure SweetAlert2 via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Dashboard Admin - Drive & Loc</title>
    
 </head>
@@ -410,7 +413,7 @@ foreach ($reservations as $reservation) {
         </form>
     </div>
 </div>
-
+<?php if (isset($_GET['status'])): ?>
 
     <script>
  
@@ -514,44 +517,54 @@ function updateFormNumbers() {
     formCount = document.querySelectorAll('.vehicle-entry').length;
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Sélectionner tous les boutons "Accepter" et "Refuser"
-    const buttons = document.querySelectorAll('button[data-action]');
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function() {
-            const action = this.getAttribute('data-action');
-            const iduser = this.getAttribute('data-iduser');
-            const idvehicule = this.getAttribute('data-idvehicule');
-            console.log('Action:', action, 'ID User:', iduser, 'ID Vehicule:', idvehicule);
-            // Effectuer l'appel AJAX pour changer le statut
-            fetch('update_reservation_status.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `action=${action}&iduser=${iduser}&idvehicule=${idvehicule}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Mettre à jour l'affichage de la réservation avec le nouveau statut
-                    const statusCell = document.querySelector(`#reservation-${iduser}-${idvehicule} td:nth-child(5)`);
-                    statusCell.textContent = data.new_status;  // Met à jour le statut affiché
-                } else {
-                    alert('Erreur lors de la mise à jour du statut.');
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-                alert('Une erreur s\'est produite.');
-            });
-        });
-    });
-});
+            let status = "<?php echo $_GET['status']; ?>";
 
+            if (status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Succès',
+                    text: 'Le statut de la réservation a été mis à jour avec succès.',
+                    confirmButtonText: 'OK'
+                });
+            } else if (status === 'error') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'Une erreur est survenue lors de la mise à jour du statut.',
+                    confirmButtonText: 'OK'
+                });
+            } else if (status === 'missing_params') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Avertissement',
+                    text: 'Des paramètres sont manquants.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let status = "<?php echo $_GET['status']; ?>";
+
+            if (status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Catégorie supprimée',
+                    text: 'La catégorie a été supprimée avec succès.',
+                    confirmButtonText: 'OK'
+                });
+            } else if (status === 'error') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'Une erreur est survenue lors de la suppression de la catégorie.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
 
     </script>
+    <?php endif; ?>
 </body>
 </html>

@@ -14,7 +14,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     
     $client = new Client($db);
     
-    // Exemple d'inscription
+
     $client->register([
         'nom' => $nom,
         'email' => $email,
@@ -23,16 +23,9 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         'gender'=>$gender,
         'password' => $password
     ]);
-    header("location:../pages/login.php");
+    header("location: ../pages/login.php");
     exit();
-    // Exemple de connexion
-
-    //   // $client->reserverVehicule([
-        //     'vehicule_id' => 1,
-        //     'date_debut' => '2024-01-01',
-        //     'date_fin' => '2024-01-05',
-        //     'lieu_prise' => 'Paris'
-        // ]);
+  
    
 } catch (Exception $e) {
     echo $e->getMessage();

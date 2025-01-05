@@ -13,10 +13,11 @@ require_once '../classe/categorie.php';
     
      if($categorie->supprimercategorie($idcategorie)){
         echo "hfhf";
-        header("location:../pages/admin.php");
+        header("location:../pages/admin.php?status=success");
         exit();
      }else{
-        echo "hfhf";
+      header("location:../pages/admin.php?status=error");
+      exit(); 
      }
      
     }catch(PDOException $e){
