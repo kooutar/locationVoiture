@@ -40,12 +40,20 @@ class vehicule{
 }
 
 function getVehiculeByName($name) {
-  $stmt = $this->db->prepare("SELECT * FROM vehicule WHERE nom :name");
-  $likedata = "%". $name ."%" ;
-  $stmt->bindParam(":name", $likedata);
+
+  $stmt = $this->db->prepare("SELECT * FROM vehicule WHERE nom LIKE :name");
+  
+
+  $likedata = "%" . $name . "%";
+
+  $stmt->bindParam(":name", $likedata, PDO::PARAM_STR);
+ 
   $stmt->execute();
-  return $stmt->fetchAll(); 
+  
+  
+  return $stmt->fetchAll();
 }
+
 
 function updateVehicule($idVehicule, $name, $price, $lieu, $disponsible, $idCategorie) {
   $stmt = $this->db->prepare("
@@ -82,7 +90,7 @@ function getTotalVehicules() {
   return $result ? $result['totalVehicule'] : 0;
 }
 function Pagination($page) {
-  $parPage = 4;
+  $parPage = 3;
   // $totalVehicules = $this->getTotalVehicules();
   $premier = ($page * $parPage) - $parPage;
   $stmt = $this->db->prepare("SELECT v.* ,c.nom as categorie FROM  vehicule v inner join categorie c on c.idCategorie =v.idCategorie LIMIT :premier, :parPage");

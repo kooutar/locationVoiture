@@ -10,17 +10,17 @@ try {
 
     $vehicule = new vehicule($db);
 
-    if (isset($_GET['namevehicule'])) {
+    if (isset($_GET['namevehicule']) && !empty(trim($_GET['namevehicule']))) {
         $vehiculeName = $_GET['namevehicule'];
-
-        if ($vehiculeName == "") {
-            $car = $vehicule->afficheVehicule(); // Correction de $vehicules en $vehicule
-        } else {
-            $car = $vehicule->getVehiculeByName($vehiculeName); // Correction
-        }
-
-        echo json_encode($car);
+    
+        $car = $vehicule->getVehiculeByName($vehiculeName); // Recherche par nom
+    } else {
+        // Si aucune recherche n'est effectuée, renvoyez tous les véhicules
+        $car = $vehicule->afficheVehicule(); 
     }
+    
+    echo json_encode($car);
+    
     // } else {
     //     echo json_encode([]); // Renvoie un tableau vide si aucun paramètre n'est défini
     // }

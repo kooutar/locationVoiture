@@ -71,7 +71,7 @@
 				                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
 				                    <i class="fa fa-bars"></i>
 				                </button>
-				                <a class="navbar-brand" href="index.html">carvilla<span></span></a>
+				                <a class="navbar-brand" href="index.php">carvilla<span></span></a>
 
 				            </div><!--/.navbar-header-->
 				            <!-- End Header Navigation -->
@@ -84,7 +84,7 @@
 				                    <li class="scroll"><a href="#featured-cars">featured cars</a></li>
 				                    <li><a href="./assets/pages/cars.php">cars</a></li>
 				                    <li class="scroll"><a href="#brand">brands</a></li>
-				                    <li class="scroll"><a href="#contact">contact</a></li>
+				                    <li class=""><a href="./assets/pages/login.php">login</a></li>
 				                </ul><!--/.nav -->
 				            </div><!-- /.navbar-collapse -->
 				        </div><!--/.container-->

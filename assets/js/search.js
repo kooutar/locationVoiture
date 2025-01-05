@@ -1,17 +1,20 @@
-const selectCategorie = document.querySelector('#selectCategorie');
 const vehicle_grid = document.querySelector('#vehicle-grid');
 
+    const inputSearch = document.querySelector('#search');
+    inputSearch.addEventListener('input', () => {
+        console.log('Input triggered');
+        const nameVehicule = inputSearch.value; 
+        loadDoc(nameVehicule); 
+    });
 
-// filtre
-selectCategorie.addEventListener('change', () => {
-    const idcategorie = selectCategorie.value; 
-    console.log(idcategorie);
-    loadDoc(idcategorie); 
-});
 
-function loadDoc(idcategorie) {
+
+function loadDoc(nameVehicule) {
+    console.log('here')
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
+        console.log(this.responseText);  // Vérifie le format de la réponse
+
         const vehicules = JSON.parse(this.responseText); 
         vehicle_grid.innerHTML = ''; 
         vehicules.forEach(vehicule => {
@@ -36,9 +39,6 @@ function loadDoc(idcategorie) {
             `;
         });
     };
-    xhttp.open("GET", `../classe/getVehicules.php?idcategorie=${idcategorie}`, true);
+    xhttp.open("GET", `../classe/searchVehicule.php?namevehicule=${nameVehicule}`, true);
     xhttp.send();
 }
-
-
-

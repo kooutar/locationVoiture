@@ -1,4 +1,5 @@
 <?php
+session_start();
     require_once '../classe/db.php';
     require_once '../classe/categorie.php';  
     require_once '../classe/vehicule.php'; 
@@ -120,6 +121,7 @@
 }
 .vehicle-grid {
             display: flex;
+            justify-content: center;
             flex-wrap: wrap;
             gap: 20px;
             padding: 20px;
@@ -247,7 +249,7 @@
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand" href="index.html">carvilla<span></span></a>
+                        <a class="navbar-brand" href="index.php">carvilla<span></span></a>
 
                     </div><!--/.navbar-header-->
                     <!-- End Header Navigation -->
@@ -255,12 +257,20 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
                         <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                            <li class=" scroll active"><a href="#home">home</a></li>
-                            <li class="scroll"><a href="#service">service</a></li>
-                            <li class="scroll"><a href="#featured-cars">featured cars</a></li>
-                            <li><a href="./assets/pages/cars.html">cars</a></li>
-                            <li class="scroll"><a href="#brand">brands</a></li>
-                            <li class="scroll"><a href="#contact">contact</a></li>
+                            <li class=""><a href="">home</a></li>
+                            <li class=""><a href="#service">service</a></li>
+                            <li class="active"><a href="#home">cars</a></li>
+                            <li class=""><a href="#featured-cars">featured cars</a></li>
+                            <li><a href="">cars</a></li>
+                            <?php 
+                            if(isset($_SESSION['id_user'])){
+                                ?>
+                                <li class=""><a href="myreservation.php">my reservation</a></li>
+                                <li class=""><a href="">Deconnexiion</a></li>
+                         <?php 
+                            }
+                            ?>
+                            
                         </ul><!--/.nav -->
                     </div><!-- /.navbar-collapse -->
                 </div><!--/.container-->
@@ -281,20 +291,16 @@
            
         </div>
     </div>
-    <!-- section affiche vehicules -->
 </section>
 
 <section class="featured-cars" style="margin-top: 50px;">
     <div class="container">
-        <!-- Search and Filter Section -->
         <div class="row" style="margin-bottom: 40px;">
             <div class="col-md-8">
-                <div class="input-group">
+                <div class="">
                     <input type="text" class="form-control" id="search" placeholder="Rechercher un véhicule..." style="height: 45px;">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" style="height: 45px; background: #4e4ffa; color: white;">
-                            <i class="fa fa-search"></i>
-                        </button>
+                        
                     </span>
                 </div>
             </div>
@@ -317,11 +323,11 @@
         <!-- Vehicles Cards -->
         <div class="vehicle-grid" id="vehicle-grid">
     <?php
-    // Initialisation de l'objet vehicule et récupération du total des véhicules
+
     $vehicle = new vehicule($db);
     $totaleVehicule = $vehicle->getTotalVehicules();
 
-    $nbrpages = ceil($totaleVehicule / 4);
+    $nbrpages = ceil($totaleVehicule / 3);
 
     $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
@@ -351,14 +357,14 @@
     <?php endforeach; ?>
 </div>
 
-<!-- Pagination (affichée sous la grille des véhicules) -->
+
 <div class="w-full">
     <div class="pagination">
         <ul>
             <?php
-            // Génération des liens de pagination
+    
             for ($i = 1; $i <= $nbrpages; $i++) {
-                // Vérification si la page actuelle correspond à la page de la boucle
+
                 $activeClass = ($i == $page) ? 'class="active"' : '';
                 echo "<li><a href='?page=$i' $activeClass>$i</a></li>";
             }
@@ -366,13 +372,6 @@
         </ul>
     </div>
 </div>
-
-        <!-- Load More Button -->
-        <div class="row">
-            <div class="col-md-12 text-center" style="margin-top: 40px;">
-                <button class="btn welcome-btn">Voir plus de véhicules</button>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -396,6 +395,7 @@
         <!--Custom JS-->
         <script src="../js/custom.js"></script>
          <script src="../js/ajax.js"></script>
+         <!-- <script src="../js/search.js"></script> -->
     </script>
 </body>
 </html>

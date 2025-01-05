@@ -8,24 +8,23 @@
 </head>
 <body class="min-h-screen bg-gray-100">
     <!-- Navbar -->
-    <nav class="bg-white shadow-lg">
+    <nav class="bg-black shadow-lg">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
                     <h1 class="text-2xl font-bold text-blue-600">Drive & Loc</h1>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#" class="text-gray-700 hover:text-blue-600">Accueil</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-600">Véhicules</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-600">Contact</a>
-                    <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Connexion</a>
+                    <a href="../index.php" class="text-white hover:text-blue-600">Accueil</a>
+                    <a href="cars.php" class="text-white hover:text-blue-600">Véhicules</a>
+                    <a href="login.php" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Connexion</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Registration Form Section -->
-    <div class="min-h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80'); background-color: rgba(0,0,0,0.5); background-blend-mode: overlay;">
+    <div class="min-h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('../images/welcome-hero/welcome-banner.jpg'); background-color: rgba(0,0,0,0.5); background-blend-mode: overlay;">
         <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md m-4">
             <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">Créer un compte</h2>
             

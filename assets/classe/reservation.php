@@ -29,6 +29,19 @@ require_once '../classe/db.php';
        else return [];
 
     }
+    function showALLreservationCleint($id_user){
+       $stmt = $this->db->prepare("SELECT r.date_debut ,r.date_fin , r.status, v.path_image ,v.nom 
+       FROM reservation r
+       inner join vehicule v
+       on r.idVehicule=v.idVehicule
+        WHERE iduser=:iduser ");
+       $resrvations =$stmt->execute(['iduser'=>$id_user]);
+       if($resrvations){
+         return $stmt->fetchALL();
+       }else{
+         return [];
+       }
+    }
  }
 
 ?>
